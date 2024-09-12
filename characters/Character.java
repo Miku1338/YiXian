@@ -187,8 +187,6 @@ public abstract class Character {
 	}
 	
 	public void endTurn() {
-		addHp(getRegen());
-		takeUnblockableDamage(getInternalInjury());
 		removeDebuff(Debuff.FLAW, 1);
 		removeDebuff(Debuff.ENTANGLED, 1);
 		removeDebuff(Debuff.WEAKENED, 1);
@@ -207,6 +205,8 @@ public abstract class Character {
 	}
 
 	public void startTurn() {
+		addHp(getRegen());
+		takeUnblockableDamage(getInternalInjury());
 		defense /= 2;
 		addBuff(Buff.REGENERATION, getRegenPerTurn());
 		addDebuff(Debuff.INTERNAL_INJURY, getInternalInjuryPerTurn());
