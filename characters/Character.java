@@ -135,6 +135,10 @@ public abstract class Character {
 		}
 	}
 	
+	public boolean isEntangled() {
+		return debuffs.containsKey(Debuff.ENTANGLED) && debuffs.get(Debuff.ENTANGLED) > 0;
+	}
+	
 	public void addAllDebuffs(Map<Debuff, Integer> debuffs) {
 		for (Debuff d : debuffs.keySet()) {
 			addDebuff(d, debuffs.get(d));
@@ -183,26 +187,28 @@ public abstract class Character {
 	}
 	
 	public void endTurn() {
-		defense /= 2;
 		addHp(getRegen());
 		takeUnblockableDamage(getInternalInjury());
-		addBuff(Buff.REGENERATION, getRegenPerTurn());
-		addDebuff(Debuff.INTERNAL_INJURY, getInternalInjuryPerTurn());
 		removeDebuff(Debuff.FLAW, 1);
 		removeDebuff(Debuff.ENTANGLED, 1);
 		removeDebuff(Debuff.WEAKENED, 1);
 	}
 
-	private void removeDebuff(Debuff debuff, int i) {
+	public void removeDebuff(Debuff debuff, int i) {
 		if (debuffs.containsKey(debuff) && debuffs.get(debuff) > 0) {
 			debuffs.put(debuff, debuffs.get(debuff) - 1);
 		}
-		
 	}
 	
 	public void removeBuff(Buff buff, int i) {
 		if (buffs.containsKey(buff) && buffs.get(buff) > 0) {
 			buffs.put(buff, buffs.get(buff) - 1);
 		}
+	}
+
+	public void startTurn() {
+		defense /= 2;
+		addBuff(Buff.REGENERATION, getRegenPerTurn());
+		addDebuff(Debuff.INTERNAL_INJURY, getInternalInjuryPerTurn());
 	}
 }

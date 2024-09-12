@@ -15,7 +15,6 @@ public class Deck {
 	
 	public Card getNextCard() {
 		Card c = cards[cardPosition];
-		advanceCard();
 		return c;
 	}
 	

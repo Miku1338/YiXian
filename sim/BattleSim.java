@@ -21,10 +21,12 @@ public class BattleSim {
 			Character c1 = new JiangXiming(d1);
 			Character c2 = new JiFangSheng(d2);
 			for (int i = 0; i < 32; ++i) {
+				c1.startTurn();
 				if (c1.getBuffs().containsKey(Buff.MISS_TURN) && c1.getBuffs().get(Buff.MISS_TURN) > 0) {
 					c1.removeBuff(Buff.MISS_TURN, 1);
 				} else {
 					c1.getDeck().getNextCard().doCardEffect(c1, c2);
+					c1.getDeck().advanceCard();
 				}
 				if (c1.getHP() <= 0 || c2.getHP() <= 0) {
 					break;
@@ -33,10 +35,12 @@ public class BattleSim {
 				if (c1.getHP() <= 0 || c2.getHP() <= 0) {
 					break;
 				}
+				c2.startTurn();
 				if (c2.getBuffs().containsKey(Buff.MISS_TURN) && c2.getBuffs().get(Buff.MISS_TURN) > 0) {
 					c2.removeBuff(Buff.MISS_TURN, 1);
 				} else {
 					c2.getDeck().getNextCard().doCardEffect(c2, c1);
+					c2.getDeck().advanceCard();
 				}
 				if (c1.getHP() <= 0 || c2.getHP() <= 0) {
 					break;
@@ -45,6 +49,7 @@ public class BattleSim {
 				if (c1.getHP() <= 0 || c2.getHP() <= 0) {
 					break;
 				}
+//				System.out.println("After turn: " + i + " The current HPs are: " + c1.getHP() + " and " + c2.getHP());
 			}
 			if (c1.getHP() >= c2.getHP()) {
 				++jiangXimingWins;
